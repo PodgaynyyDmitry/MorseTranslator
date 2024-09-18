@@ -13,9 +13,13 @@ Window {
         Row{
             Button {
                 text: "Документ"
+                onClicked:
+                    trie.insert("-.",'a')
             }
             Button {
                 text: "Сохранить как"
+                onClicked:
+                translatedText.text=trie.search("-.")
             }
         }
         // Верхняя панель выбора языков
