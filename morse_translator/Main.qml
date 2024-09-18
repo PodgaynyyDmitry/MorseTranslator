@@ -13,13 +13,13 @@ Window {
         Row{
             Button {
                 text: "Документ"
-                onClicked:
-                    trie.insert("-.",'a')
+                //onClicked:
+                    //trie.insert("-.",'a')
             }
             Button {
                 text: "Сохранить как"
                 onClicked:
-                translatedText.text=trie.search("-.")
+                translatedText.text=hashTable.find('a')
             }
         }
         // Верхняя панель выбора языков
