@@ -29,11 +29,21 @@ Window {
                 id: sourceLanguage
                 model: ["Морзе", "Текст"]
                 currentIndex: 0
+                onCurrentIndexChanged:
+                    if(sourceLanguage.currentIndex==0)
+                        targetLanguage.currentIndex=1
+                    else
+                        targetLanguage.currentIndex= 0
             }
             ComboBox {
                 id: targetLanguage
                 model: ["Морзе", "Текст"]
                 currentIndex: 1
+                onCurrentIndexChanged:
+                    if(targetLanguage.currentIndex==0)
+                        sourceLanguage.currentIndex=1
+                    else
+                        sourceLanguage.currentIndex= 0
             }
         }
 
@@ -58,14 +68,14 @@ Window {
                             border.color: "grey"
                             border.width: 1
                             }
-                    onTextChanged: if(sourceLanguage.currentIndex==0)
-                                   {
-                                     translatedText.text = morse.encode(sourceText.text)
-                                   }
-                                    else
-                                   {
-                                       translatedText.text = morse.decode(sourceText.text)
-                                   }
+                    onTextChanged: if(sourceText.text.match(/^[\.\-\s]+$/)){
+                                               sourceLanguage.currentIndex=0
+                                        translatedText.text = morse.decode(sourceText.text)
+                                           }
+                                    else{
+                                        sourceLanguage.currentIndex=1
+                                        translatedText.text = morse.encode(sourceText.text)
+                                    }
                 }
             }
             Column{

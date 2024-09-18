@@ -18,14 +18,19 @@ void HashTable:: insert(QChar key, QString value){
     values[index]=value;
 }
 QString HashTable::find(QChar key){
-    int index=HashFunc(key);
-    int uniqueIndex = index;
-    while(keys[index]!=' '){
-        if(keys[index]==key)
-            return values[index];
-        index= (index+1)%TABLE_SIZE;
-        if(index==uniqueIndex)
-            break;
+    if(key==' '){
+        return " ";
     }
-    return "Ненайденко";
+    else{
+        int index=HashFunc(key);
+        int uniqueIndex = index;
+        while(keys[index]!=' '){
+            if(keys[index]==key)
+                return values[index];
+            index= (index+1)%TABLE_SIZE;
+            if(index==uniqueIndex)
+                break;
+        }
+        return "Ненайденко";
+    }
 }

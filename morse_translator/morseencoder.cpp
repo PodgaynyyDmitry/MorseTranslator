@@ -11,15 +11,20 @@ MorseEncoder::MorseEncoder(QObject* parent):QObject(parent){
         hashTable.insert(letters[i],codes[i]);
     }
 }
-QString MorseEncoder::encode(QString text){
+QString MorseEncoder::encode(QString value){
+    QString text = value.toLower();
     QString result="";
     for (QChar letter:text) {
-        result+=hashTable.find(letter) + " ";
+        if(letter!=' ')
+            result+=hashTable.find(letter) + " ";
+        else
+            result+=hashTable.find(letter);
     }
-    return result;
+    return result.remove(result.length()-1,1);
 }
-QString MorseEncoder:: decode(QString text)
+QString MorseEncoder:: decode(QString value)
 {
+    QString text = value.toLower();
     QString result;
     QStringList words=text.split("  ");
     for (int i = 0; i < words.count(); ++i) {
@@ -27,7 +32,8 @@ QString MorseEncoder:: decode(QString text)
         for (QString letter:letters) {
             result+= trie.search(letter);
         }
-        result+=' ';
+        if(i!=words.count()-1)
+            result+=' ';
     }
     return result;
 }
