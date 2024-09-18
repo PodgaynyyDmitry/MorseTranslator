@@ -29,12 +29,19 @@ void Trie::insert(QString code, QChar letter){
 QChar Trie::search(QString code){
     TrieNode * current=root;
     for(QChar symbol: code){
-        if(symbol=='.'){
-            current=current->leftChild;
-        }
-        if(symbol=='-'){
-            current=current->rightChild;
-        }
+        // if(current!=nullptr){
+            if(symbol=='.'){
+                if(current->leftChild!=nullptr)
+                    current=current->leftChild;
+                else
+                     return '1';
+            }
+            if(symbol=='-'){
+                 if(current->rightChild!=nullptr)
+                    current=current->rightChild;
+                 else
+                     return '1';
+            }
     }
     return current->letter;
   }

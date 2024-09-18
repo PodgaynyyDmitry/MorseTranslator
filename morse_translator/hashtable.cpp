@@ -2,7 +2,6 @@
 
 HashTable::HashTable(QObject* parent):QObject(parent) {
     for (int i = 0; i < TABLE_SIZE; ++i) {
-        // keys[i]=QChar(EMPTY);
          keys[i]=' ';
     }
 }
@@ -31,6 +30,6 @@ QString HashTable::find(QChar key){
             if(index==uniqueIndex)
                 break;
         }
-        return "Ненайденко";
+        return "#";
     }
 }

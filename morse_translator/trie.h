@@ -6,6 +6,7 @@ struct TrieNode{//узлы дерева
     TrieNode* leftChild;
     TrieNode* rightChild;
     QChar letter;
+   //Q_INVOKABLE TrieNode(){this->letter='1';}
 };
 
 class Trie: public QObject

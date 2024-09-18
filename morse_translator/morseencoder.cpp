@@ -14,26 +14,35 @@ MorseEncoder::MorseEncoder(QObject* parent):QObject(parent){
 QString MorseEncoder::encode(QString value){
     QString text = value.toLower();
     QString result="";
-    for (QChar letter:text) {
-        if(letter!=' ')
-            result+=hashTable.find(letter) + " ";
-        else
-            result+=hashTable.find(letter);
+    QStringList words = text.split(" ");
+    for (int i=0;i<words.count();++i) {
+        if(words[i].replace(" ","").length()!=0 ){
+            for (QChar letter:words[i]) {
+                result+=hashTable.find(letter)+' ';
+            }
+            if(i!=words.count()-1)
+                result+=' ';
+        }
     }
     return result.remove(result.length()-1,1);
 }
+
 QString MorseEncoder:: decode(QString value)
 {
     QString text = value.toLower();
     QString result;
+    if(value.replace(" ","").length()==0)
+        return "";
     QStringList words=text.split("  ");
     for (int i = 0; i < words.count(); ++i) {
-        QStringList letters = words[i].split(' ');
-        for (QString letter:letters) {
-            result+= trie.search(letter);
+            QStringList letters = words[i].split(' ');
+        if(words[i].replace(" ","").length()!=0 ){
+            for (QString letter:letters) {
+                result+= trie.search(letter);
+            }
+            if(i!=words.count()-1)
+                result+=' ';
         }
-        if(i!=words.count()-1)
-            result+=' ';
     }
     return result;
 }
