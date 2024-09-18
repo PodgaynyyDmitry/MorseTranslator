@@ -1,5 +1,7 @@
-import QtQuick
+import QtQuick 2.15
 import QtQuick.Controls 2.15
+import QtQuick.Dialogs 6.2
+import Qt.labs.platform 1.1
 Window {
     width: 400
     height: 300
@@ -11,15 +13,40 @@ Window {
         width: parent.width
         height: parent.height
         Row{
+            FileDialog{
+                id:fileDialog
+                title: "Документ"
+                nameFilters: ["Текстовые файлы (*.txt)","Все файлы (*)"]
+                onAccepted: {var filePath=fileDialog.file.toString()
+                    filePath=filePath.replace("file:///","")
+                    filepath.text=filePath
+               sourceText.text=handler.readText(filePath)}
+                onRejected: {filepath.text="Выбор отменен"}
+            }
+            FolderDialog{
+                id:save
+                title: "Сохраните файл"
+               // nameFilters: ["Текстовые файлы (*.txt)","Все файлы (*)"]
+                //sel:true
+                onAccepted: {var filePath=save.folder.toString()
+                    filePath=filePath.replace("file:///","")
+                    handler.save(filePath,translatedText.text)
+                    filepath.text=filePath}
+                onRejected: {filepath.text="Выбор отменен"}
+            }
+            Label{
+                id: filepath
+                text:"Файл не выбран"
+            }
+
             Button {
                 text: "Документ"
-                //onClicked:
+                onClicked:{fileDialog.open()}
                     //trie.insert("-.",'a')
             }
             Button {
                 text: "Сохранить как"
-                onClicked:
-                translatedText.text=hashTable.find(',')
+                onClicked:{save.open()}
             }
         }
         // Верхняя панель выбора языков
