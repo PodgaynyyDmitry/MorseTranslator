@@ -19,7 +19,7 @@ Window {
             Button {
                 text: "Сохранить как"
                 onClicked:
-                translatedText.text=hashTable.find('a')
+                translatedText.text=hashTable.find(',')
             }
         }
         // Верхняя панель выбора языков
@@ -51,12 +51,21 @@ Window {
                     placeholderText: "Enter text here"
                     width: parent.width
                     height: parent.height
+                    wrapMode: Text.Wrap
                     background:
                         Rectangle {
                             radius: 2
                             border.color: "grey"
                             border.width: 1
                             }
+                    onTextChanged: if(sourceLanguage.currentIndex==0)
+                                   {
+                                     translatedText.text = morse.encode(sourceText.text)
+                                   }
+                                    else
+                                   {
+                                       translatedText.text = morse.decode(sourceText.text)
+                                   }
                 }
             }
             Column{
@@ -68,6 +77,8 @@ Window {
                     placeholderText: "Translation will appear here"
                     width: parent.width
                     height: parent.height
+                    wrapMode: Text.Wrap
+                    clip: true
                     readOnly: true
                     background:
                         Rectangle {

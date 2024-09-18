@@ -3,25 +3,25 @@
 #include<QQmlContext>
 #include "trie.h"
 #include "hashtable.h"
+#include "morseencoder.h"
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
-    Trie trie;
-    trie.insert(".-",'a');
-    trie.insert("-...",'b');
-    trie.insert("-.-.",'c');
-    trie.insert("-..",'d');
-    trie.insert(".",'e');
-    trie.insert("..-.",'f');
-    trie.insert("--.",'g');
-    HashTable hashTable;
-    hashTable.insert('a',".-");
-    hashTable.insert('b',"-...");
-    hashTable.insert('c',"-.-.");
-    hashTable.insert('d',"-..");
+    // QString codes[]={".-","-..","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--",
+    //                    "-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--",
+    //                    "--..",".-.-.-","--..--","..--..","-.-.-.","-.-.--"};
+    // QChar letters[]={'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','.',',',
+    //                 '?',';','!'};
+    // Trie trie;
+    // HashTable hashTable;
+    // for (int i = 0; i < sizeof(codes)/sizeof(codes[0]); ++i) {
+    //     trie.insert(codes[i],letters[i]);
+    //     hashTable.insert(letters[i],codes[i]);
+    // }
+    MorseEncoder morse;
     QQmlApplicationEngine engine;
-    engine.rootContext()->setContextProperty("trie",&trie);
-    engine.rootContext()->setContextProperty("hashTable",&hashTable);
+    engine.rootContext()->setContextProperty("morse",&morse);
+    // engine.rootContext()->setContextProperty("hashTable",&hashTable);
     const QUrl url(QStringLiteral("qrc:/morse_translator/Main.qml"));
     QObject::connect(
         &engine,
