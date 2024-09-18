@@ -3,7 +3,6 @@
 
 #include <QObject>
 const int TABLE_SIZE=32;
-//const int EMPTY =-1;
 class HashTable: public QObject
 {
     Q_OBJECT

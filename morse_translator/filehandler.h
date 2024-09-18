@@ -12,5 +12,4 @@ public:
     Q_INVOKABLE void save(QString filePath,QString text);
 private:
 };
-
 #endif // FILEHANDLER_H

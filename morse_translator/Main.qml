@@ -23,9 +23,7 @@ Window {
                 nameFilters: ["Текстовые файлы (*.txt)","Все файлы (*)"]
                 onAccepted: {var filePath=fileDialog.file.toString()
                     filePath=filePath.replace("file:///","")
-                   // filepath.text=filePath
                sourceText.text=handler.readText(filePath)}
-                //onRejected: {filepath.text="Выбор отменен"}
             }
             FolderDialog{
                 id:save
@@ -33,30 +31,32 @@ Window {
                 onAccepted: {var filePath=save.folder.toString()
                     filePath=filePath.replace("file:///","")
                     handler.save(filePath,translatedText.text)
-                    //filepath.text=filePath
                 }
                 onRejected: {filepath.text="Выбор отменен"}
             }
             Row{
                 Button {
                     text: "Выбрать файл"
+
                     onClicked:{fileDialog.open()}
                 }
+
                 Button {
                     text: "Сохранить как"
                     onClicked:{save.open()}
                 }
-                spacing:107
+                spacing:20
                 leftPadding:10
             }
         }
         Row {
-           // anchors.top: parent
+            id:comboRow
             leftPadding: 10
-            spacing: 105
+            spacing: 85
                 ComboBox {
                     id: sourceLanguage
                     model: ["Морзе", "Текст"]
+
                     currentIndex: 0
                     onCurrentIndexChanged:
                         if(sourceLanguage.currentIndex==0)
@@ -64,13 +64,20 @@ Window {
                         else
                             targetLanguage.currentIndex= 0
                 }
+                Button {
+                    text:"<->"
+                    onClicked:{
+                        var index = sourceLanguage.currentIndex
+                        sourceLanguage.currentIndex=targetLanguage.currentIndex
+                        targetLanguage.currentIndex=index
+                        sourceText.text = translatedText.text
+                    }
+                }
                 ComboBox {
                     id: targetLanguage
                     model: ["Морзе", "Текст"]
                     currentIndex: 1
                     leftPadding: 10
-                    // anchors.right: parent.right
-                    // anchors.rightMargin: 10
                     onCurrentIndexChanged:
                         if(targetLanguage.currentIndex==0)
                             sourceLanguage.currentIndex=1
@@ -84,7 +91,6 @@ Window {
             height: parent.height*0.7
             spacing: 10
             Column{
-                // anchors.leftMargin: 10
                 width: parent.width/2
                 height: parent.height
                     TextArea {

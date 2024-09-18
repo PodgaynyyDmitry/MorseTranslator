@@ -13,15 +13,13 @@ QString fileHandler:: readText(QString filePath)
     file.close();
     return result;
 }
-void fileHandler:: save(QString filePath, QString text)
+void fileHandler:: Save(QString filePath, QString text)
 {
     QFile file(filePath+"/savedText.txt");
-    // Открытие файла для записи
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         return;
     }
-    // Создание текстового потока для записи в файл
     QTextStream out(&file);
     out<< text;
-    file.close(); // Закрытие файла
+    file.close();
 }
