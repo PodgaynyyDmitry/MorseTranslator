@@ -2,6 +2,7 @@
 #define MORSEENCODER_H
 
 #include <QObject>
+#include <QMap>
 #include "trie.h"
 #include "hashtable.h"
 
@@ -13,8 +14,10 @@ public:
     Q_INVOKABLE QString encode(QString text);
     Q_INVOKABLE QString decode(QString text);
 private:
-    Trie trie;
-    HashTable hashTable;
+    // Trie trie;
+    // HashTable hashTable;
+    QMap<QChar,QString> encoder;
+    QMap<QString,QChar> decoder;
 };
 
 #endif // MORSEENCODER_H
