@@ -14,54 +14,56 @@ Window {
         width: parent.width
         height: parent.height
         anchors.centerIn: parent
-        Row{
+        Row {
             id: buttonsRow
-            FileDialog{
+            FileDialog {
                 id:fileDialog
                 title: "Документ"
                 nameFilters: ["Текстовые файлы (*.txt)","Все файлы (*)"]
-                onAccepted: {var filePath=fileDialog.file.toString()
+                onAccepted: {
+                    var filePath=fileDialog.file.toString()
                     filePath=filePath.replace("file:///","")
-               sourceText.text=handler.readText(filePath)}
+                    sourceText.text=handler.readText(filePath)
+                }
             }
-            FolderDialog{
+            FolderDialog {
                 id:save
                 title: "Сохраните файл"
-                onAccepted: {var filePath=save.folder.toString()
+                onAccepted: {
+                    var filePath=save.folder.toString()
                     filePath=filePath.replace("file:///","")
                     handler.save(filePath,translatedText.text)
                 }
-                onRejected: {filepath.text="Выбор отменен"}
             }
-            Row{
+            Row {
                 anchors.left:parent
                 spacing:20
                 leftPadding:10
-                Column{
+                Column {
                     width: fileButton.width
                     height: fileButton.height
                     Button {
                         id: fileButton
                         text: "Выбрать файл"
-                        onClicked:{fileDialog.open()}
+                        onClicked: fileDialog.open()
                     }
                 }
-                Column{
+                Column {
                     width: saveButton.width
                     height: saveButton.height
                     Button {
-                        id:saveButton
+                        id: saveButton
                         text: "Сохранить как"
-                        onClicked:{save.open()}
+                        onClicked: save.open()
                     }
                 }
             }
         }
-        Row{
+        Row {
             width: parent.width
             height: parent.height-2*buttonsRow.height
             spacing: 15
-            Column{
+            Column {
                 width: parent.width/2-change.width
                 height: parent.height
                     TextArea {
@@ -77,28 +79,25 @@ Window {
                                 radius: 2
                                 border.color: "grey"
                                 border.width: 1
-                                }
-                        onTextChanged: if(sourceText.text.match(/^[\.\-\s]+$/)){
-                                            translatedText.text = morse.decode(sourceText.text)
-                                            }
-                                        else{
-                                            translatedText.text = morse.encode(sourceText.text)
-                                        }
+                            }
+                        onTextChanged:
+                            if(sourceText.text.match(/^[\.\-\s]+$/))
+                                translatedText.text = morse.decode(sourceText.text)
+                            else
+                                translatedText.text = morse.encode(sourceText.text)
                     }
             }
-            Column{
+            Column {
                 width: change.width
                 height: change.height
                 topPadding: sourceText.height/3
                 Button {
                     id: change
                     text:"<->"
-                    onClicked:{
-                        sourceText.text = translatedText.text
-                    }
+                    onClicked: sourceText.text = translatedText.text
+                }
             }
-            }
-            Column{
+            Column {
                 width: parent.width/2 - change.width
                 height: parent.height
                 TextArea {

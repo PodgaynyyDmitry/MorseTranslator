@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
     MorseEncoder morse;
-    fileHandler handler;
+    FileHandler handler;
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("morse",&morse);
     engine.rootContext()->setContextProperty("handler",&handler);

@@ -4,6 +4,7 @@
 #include <QObject>
 const int TABLE_SIZE=32;
 const QChar EMPTY = ' ';
+
 class HashTable: public QObject
 {
     Q_OBJECT
@@ -14,9 +15,7 @@ public:
 private:
     QChar keys[TABLE_SIZE];
     QString values[TABLE_SIZE];
-    int HashFunc(QChar key){
-        return int(key.toLatin1()) % TABLE_SIZE;
-    }
+    int HashFunc(QChar key);
 };
 
 #endif // HASHTABLE_H

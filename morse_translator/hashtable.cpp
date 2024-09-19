@@ -5,6 +5,9 @@ HashTable::HashTable(QObject* parent):QObject(parent) {
          keys[i]=EMPTY;
     }
 }
+int HashTable:: HashFunc(QChar key){
+    return int(key.toLatin1()) % TABLE_SIZE;
+}
 void HashTable:: insert(QChar key, QString value){
     int index=HashFunc(key);
     int uniqueIndex = index;

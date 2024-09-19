@@ -3,20 +3,18 @@
 
 #include <QObject>
 #include <QMap>
-#include "trie.h"
-#include "hashtable.h"
+#include <QHash>
 
-class MorseEncoder: public QObject
+
+class MorseEncoder : public QObject
 {
     Q_OBJECT
 public:
-   explicit MorseEncoder(QObject* parent=nullptr);
+    explicit MorseEncoder(QObject *parent=nullptr);
     Q_INVOKABLE QString encode(QString text);
     Q_INVOKABLE QString decode(QString text);
 private:
-    // Trie trie;
-    // HashTable hashTable;
-    QMap<QChar,QString> encoder;
+    QHash<QChar,QString> encoder;
     QMap<QString,QChar> decoder;
 };
 

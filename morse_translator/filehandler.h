@@ -4,12 +4,12 @@
 #include <QObject>
 #include <QFile>
 #include <QTextStream>
-class fileHandler: public QObject {
-Q_OBJECT
+class FileHandler : public QObject
+{
+    Q_OBJECT
 public:
-    explicit fileHandler(QObject * parent = nullptr);
+    explicit FileHandler(QObject *parent = nullptr);
     Q_INVOKABLE QString readText(QString filePath);
-    Q_INVOKABLE void save(QString filePath,QString text);
-private:
+    Q_INVOKABLE void save(QString filePath, QString text);
 };
 #endif // FILEHANDLER_H
