@@ -13,7 +13,7 @@ QString fileHandler:: readText(QString filePath)
     file.close();
     return result;
 }
-void fileHandler:: Save(QString filePath, QString text)
+void fileHandler:: save(QString filePath, QString text)
 {
     QFile file(filePath+"/savedText.txt");
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {

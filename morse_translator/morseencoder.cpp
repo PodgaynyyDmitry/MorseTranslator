@@ -1,12 +1,12 @@
 #include "morseencoder.h"
 
 MorseEncoder::MorseEncoder(QObject* parent):QObject(parent){
-    QString codes[]={".-","-..","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--",
+    QList<QString> codes={".-","-..","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--",
                        "-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--",
                        "--..",".-.-.-","--..--","..--..","-.-.-.","-.-.--"};
-    QChar letters[]={'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','.',',',
+    QList<QChar> letters={'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','.',',',
                        '?',';','!'};
-    for (int i = 0; i < sizeof(codes)/sizeof(codes[0]); ++i) {
+    for (int i = 0; i <letters.count(); ++i) {
         trie.insert(codes[i],letters[i]);
         hashTable.insert(letters[i],codes[i]);
     }

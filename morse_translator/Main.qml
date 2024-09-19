@@ -5,10 +5,8 @@ import Qt.labs.platform 1.1
 Window {
     width: 400
     height: 300
-    minimumHeight: 300
-    minimumWidth: 400
-    maximumHeight: 300
-    maximumWidth: 400
+    minimumWidth: saveButton.width + fileButton.width +30
+    minimumHeight:buttonsRow.height*3
     visible: true
     title: qsTr("Морзе Переводчик")
     Column {
@@ -17,6 +15,7 @@ Window {
         height: parent.height
         anchors.centerIn: parent
         Row{
+            id: buttonsRow
             FileDialog{
                 id:fileDialog
                 title: "Документ"
@@ -35,68 +34,40 @@ Window {
                 onRejected: {filepath.text="Выбор отменен"}
             }
             Row{
-                Button {
-                    text: "Выбрать файл"
-
-                    onClicked:{fileDialog.open()}
-                }
-
-                Button {
-                    text: "Сохранить как"
-                    onClicked:{save.open()}
-                }
+                anchors.left:parent
                 spacing:20
                 leftPadding:10
-            }
-        }
-        Row {
-            id:comboRow
-            leftPadding: 10
-            spacing: 85
-                ComboBox {
-                    id: sourceLanguage
-                    model: ["Морзе", "Текст"]
-
-                    currentIndex: 0
-                    onCurrentIndexChanged:
-                        if(sourceLanguage.currentIndex==0)
-                            targetLanguage.currentIndex=1
-                        else
-                            targetLanguage.currentIndex= 0
-                }
-                Button {
-                    text:"<->"
-                    onClicked:{
-                        var index = sourceLanguage.currentIndex
-                        sourceLanguage.currentIndex=targetLanguage.currentIndex
-                        targetLanguage.currentIndex=index
-                        sourceText.text = translatedText.text
+                Column{
+                    width: fileButton.width
+                    height: fileButton.height
+                    Button {
+                        id: fileButton
+                        text: "Выбрать файл"
+                        onClicked:{fileDialog.open()}
                     }
                 }
-                ComboBox {
-                    id: targetLanguage
-                    model: ["Морзе", "Текст"]
-                    currentIndex: 1
-                    leftPadding: 10
-                    onCurrentIndexChanged:
-                        if(targetLanguage.currentIndex==0)
-                            sourceLanguage.currentIndex=1
-                        else
-                            sourceLanguage.currentIndex= 0
+                Column{
+                    width: saveButton.width
+                    height: saveButton.height
+                    Button {
+                        id:saveButton
+                        text: "Сохранить как"
+                        onClicked:{save.open()}
+                    }
                 }
-
+            }
         }
         Row{
             width: parent.width
-            height: parent.height*0.7
-            spacing: 10
+            height: parent.height-2*buttonsRow.height
+            spacing: 15
             Column{
-                width: parent.width/2
+                width: parent.width/2-change.width
                 height: parent.height
                     TextArea {
                         id: sourceText
                         placeholderText: "Введите текст"
-                        width: parent.width-12
+                        width: parent.width
                         height: parent.height
                         anchors.left: parent.left
                         anchors.leftMargin: 10
@@ -108,26 +79,35 @@ Window {
                                 border.width: 1
                                 }
                         onTextChanged: if(sourceText.text.match(/^[\.\-\s]+$/)){
-                                            sourceLanguage.currentIndex=0
                                             translatedText.text = morse.decode(sourceText.text)
                                             }
                                         else{
-                                            sourceLanguage.currentIndex=1
                                             translatedText.text = morse.encode(sourceText.text)
                                         }
                     }
             }
             Column{
-                width: parent.width/2
+                width: change.width
+                height: change.height
+                topPadding: sourceText.height/3
+                Button {
+                    id: change
+                    text:"<->"
+                    onClicked:{
+                        sourceText.text = translatedText.text
+                    }
+            }
+            }
+            Column{
+                width: parent.width/2 - change.width
                 height: parent.height
-                spacing: 10
                 TextArea {
                     id: translatedText
                     placeholderText: "Перевод"
-                    width: parent.width-12
+                    width: parent.width
                     height: parent.height
                     anchors.right: parent.right
-                    anchors.rightMargin: 20
+                    anchors.rightMargin: 10
                     wrapMode: Text.Wrap
                     clip: true
                     readOnly: true
@@ -139,8 +119,6 @@ Window {
                             }
                 }
             }
-
-
         }
     }
 }
