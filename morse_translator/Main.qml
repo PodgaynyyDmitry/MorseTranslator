@@ -1,7 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Dialogs 6.2
-import Qt.labs.platform 1.1
 Window {
     width: 400
     height: 300
@@ -21,16 +20,18 @@ Window {
                 title: "Документ"
                 nameFilters: ["Текстовые файлы (*.txt)","Все файлы (*)"]
                 onAccepted: {
-                    var filePath=fileDialog.file.toString()
-                    filePath=filePath.replace("file:///","")
+                    var filePath=fileDialog.currentFile.toString()
+                    //filePath=filePath.replace("file:///","")
                     sourceText.text=handler.readText(filePath)
                 }
             }
-            FolderDialog {
+            FileDialog {
                 id:save
                 title: "Сохраните файл"
+                fileMode: FileDialog.SaveFile
+                nameFilters: ["Текстовые файлы (*.txt)","Все файлы (*)"]
                 onAccepted: {
-                    var filePath=save.folder.toString()
+                    var filePath=save.currentFile.toString()
                     filePath=filePath.replace("file:///","")
                     handler.save(filePath,translatedText.text)
                 }

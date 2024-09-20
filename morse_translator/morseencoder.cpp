@@ -1,6 +1,7 @@
 #include "morseencoder.h"
 
-MorseEncoder::MorseEncoder(QObject *parent) : QObject(parent){
+MorseEncoder::MorseEncoder(QObject *parent) : QObject(parent)
+{
     QList<QString> codes={".-","-..","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--",
                           "-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--",
                           "--..",".-.-.-","--..--","..--..","-.-.-.","-.-.--"};
