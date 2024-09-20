@@ -20,7 +20,7 @@ QString MorseEncoder::encode(QString value)
     QStringList words = text.split(SPACE);
     for (int i = 0; i < words.count(); ++i) {
         if (words[i].replace(SPACE,EMPTY).length() != 0) {
-            for (QChar letter:words[i]) {
+            for (QChar letter : words[i]) {
                 if (encoder.contains(letter))
                     result += encoder.find(letter).value() + ' ';
             }
@@ -30,7 +30,6 @@ QString MorseEncoder::encode(QString value)
     }
     return result.remove(result.length() - 1, 1);
 }
-
 QString MorseEncoder::decode(QString value)
 {
     QString text = value.toLower();
@@ -39,9 +38,9 @@ QString MorseEncoder::decode(QString value)
         return EMPTY;
     QStringList words = text.split(DOUBLE_SPACE);
     for (int i = 0; i < words.count(); ++i) {
-        QStringList letters = words[i].split(' ');
+        QStringList letters = words[i].split(SPACE);
         if (words[i].replace(SPACE,EMPTY).length() != 0) {
-            for (QString letter:letters) {
+            for (QString letter : letters) {
                 if (decoder.contains(letter))
                     result += decoder.find(letter).value();
             }
