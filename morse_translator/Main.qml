@@ -4,8 +4,8 @@ import QtQuick.Dialogs 6.2
 Window {
     width: 400
     height: 300
-    minimumWidth: saveButton.width + fileButton.width +30
-    minimumHeight:buttonsRow.height*3
+    minimumWidth: saveButton.width + fileButton.width + 30
+    minimumHeight: buttonsRow.height * 3
     visible: true
     title: qsTr("Морзе Переводчик")
     Column {
@@ -16,36 +16,36 @@ Window {
         Row {
             id: buttonsRow
             FileDialog {
-                id:fileDialog
+                id: fileDialog
                 title: "Документ"
-                nameFilters: ["Текстовые файлы (*.txt)","Все файлы (*)"]
+                nameFilters: ["Текстовые файлы (*.txt)", "Все файлы (*)"]
                 onAccepted: {
-                    var filePath=fileDialog.currentFile.toString()
+                    var filePath = fileDialog.currentFile.toString()
                     if (Qt.platform.os === "windows")
-                        filePath=filePath.replace("file:///","")
+                        filePath=filePath.replace("file:///", "")
                     else if (Qt.platform.os === "linux" || Qt.platform.os === "osx")
-                        filePath=filePath.replace("file://","")
-                    sourceText.text=fileHandler.readText(filePath)
+                        filePath = filePath.replace("file://", "")
+                    sourceText.text = fileHandler.readText(filePath)
                 }
             }
             FileDialog {
-                id:save
+                id: save
                 title: "Сохраните файл"
                 fileMode: FileDialog.SaveFile
-                nameFilters: ["Текстовые файлы (*.txt)","Все файлы (*)"]
+                nameFilters: ["Текстовые файлы (*.txt)", "Все файлы (*)"]
                 onAccepted: {
-                    var filePath=save.currentFile.toString()
+                    var filePath = save.currentFile.toString()
                     if (Qt.platform.os === "windows")
-                        filePath=filePath.replace("file:///","")
+                        filePath = filePath.replace("file:///", "")
                     else if (Qt.platform.os === "linux" || Qt.platform.os === "osx")
-                        filePath=filePath.replace("file://","")
+                        filePath = filePath.replace("file://", "")
                     fileHandler.saveText(filePath,translatedText.text)
                 }
             }
             Row {
-                anchors.left:parent
-                spacing:20
-                leftPadding:10
+                anchors.left: parent
+                spacing: 20
+                leftPadding: 10
                 Column {
                     width: fileButton.width
                     height: fileButton.height
@@ -68,10 +68,10 @@ Window {
         }
         Row {
             width: parent.width
-            height: parent.height-2*buttonsRow.height
+            height: parent.height - (2 * buttonsRow.height)
             spacing: 15
             Column {
-                width: parent.width/2-change.width
+                width: (parent.width / 2) - change.width
                 height: parent.height
                     TextArea {
                         id: sourceText
@@ -88,7 +88,7 @@ Window {
                                 border.width: 1
                             }
                         onTextChanged:
-                            if(sourceText.text.match(/^[\.\-\s]+$/))
+                            if (sourceText.text.match(/^[\.\-\s]+$/))
                                 translatedText.text = morseEncoder.decode(sourceText.text)
                             else
                                 translatedText.text = morseEncoder.encode(sourceText.text)
@@ -97,15 +97,15 @@ Window {
             Column {
                 width: change.width
                 height: change.height
-                topPadding: sourceText.height/3
+                topPadding: sourceText.height / 3
                 Button {
                     id: change
-                    text:"<->"
+                    text: "<->"
                     onClicked: sourceText.text = translatedText.text
                 }
             }
             Column {
-                width: parent.width/2 - change.width
+                width: (parent.width / 2) - change.width
                 height: parent.height
                 TextArea {
                     id: translatedText

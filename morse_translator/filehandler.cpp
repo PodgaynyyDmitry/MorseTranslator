@@ -10,7 +10,7 @@ QString FileHandler::readText(QString filePath)
     if(!file.open(QIODevice::ReadOnly|QIODevice::Text))
         return "Не удалось открыть файл";
     QTextStream in(&file);
-    result=in.readAll();
+    result = in.readAll();
     file.close();
     return result;
 }
@@ -20,6 +20,6 @@ void FileHandler::saveText(QString filePath, QString text)
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
         return;
     QTextStream out(&file);
-    out<< text;
+    out << text;
     file.close();
 }
