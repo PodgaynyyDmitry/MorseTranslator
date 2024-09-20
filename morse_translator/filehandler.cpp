@@ -2,7 +2,6 @@
 
 FileHandler::FileHandler(QObject *parent): QObject (parent)
 {
-
 }
 QString FileHandler::readText(QString filePath)
 {
@@ -15,7 +14,7 @@ QString FileHandler::readText(QString filePath)
     file.close();
     return result;
 }
-void FileHandler::save(QString filePath, QString text)
+void FileHandler::saveText(QString filePath, QString text)
 {
     QFile file(filePath);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text))

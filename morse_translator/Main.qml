@@ -21,8 +21,11 @@ Window {
                 nameFilters: ["Текстовые файлы (*.txt)","Все файлы (*)"]
                 onAccepted: {
                     var filePath=fileDialog.currentFile.toString()
-                    //filePath=filePath.replace("file:///","")
-                    sourceText.text=handler.readText(filePath)
+                    if (Qt.platform.os === "windows")
+                        filePath=filePath.replace("file:///","")
+                    else if (Qt.platform.os === "linux" || Qt.platform.os === "osx")
+                        filePath=filePath.replace("file://","")
+                    sourceText.text=fileHandler.readText(filePath)
                 }
             }
             FileDialog {
@@ -32,8 +35,11 @@ Window {
                 nameFilters: ["Текстовые файлы (*.txt)","Все файлы (*)"]
                 onAccepted: {
                     var filePath=save.currentFile.toString()
-                    filePath=filePath.replace("file:///","")
-                    handler.save(filePath,translatedText.text)
+                    if (Qt.platform.os === "windows")
+                        filePath=filePath.replace("file:///","")
+                    else if (Qt.platform.os === "linux" || Qt.platform.os === "osx")
+                        filePath=filePath.replace("file://","")
+                    fileHandler.saveText(filePath,translatedText.text)
                 }
             }
             Row {
@@ -83,9 +89,9 @@ Window {
                             }
                         onTextChanged:
                             if(sourceText.text.match(/^[\.\-\s]+$/))
-                                translatedText.text = morse.decode(sourceText.text)
+                                translatedText.text = morseEncoder.decode(sourceText.text)
                             else
-                                translatedText.text = morse.encode(sourceText.text)
+                                translatedText.text = morseEncoder.encode(sourceText.text)
                     }
             }
             Column {
@@ -116,7 +122,7 @@ Window {
                             radius: 2
                             border.color: "grey"
                             border.width: 1
-                            }
+                        }
                 }
             }
         }

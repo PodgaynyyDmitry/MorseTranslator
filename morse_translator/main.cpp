@@ -7,11 +7,11 @@
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
-    MorseEncoder morse;
-    FileHandler handler;
+    MorseEncoder morseEncoder;
+    FileHandler fileHandler;
     QQmlApplicationEngine engine;
-    engine.rootContext()->setContextProperty("morse",&morse);
-    engine.rootContext()->setContextProperty("handler",&handler);
+    engine.rootContext()->setContextProperty("morseEncoder",&morseEncoder);
+    engine.rootContext()->setContextProperty("fileHandler",&fileHandler);
     const QUrl url(QStringLiteral("qrc:/morse_translator/Main.qml"));
     QObject::connect(
         &engine,

@@ -5,6 +5,9 @@
 #include <QMap>
 #include <QHash>
 
+const QString SPACE = " ";
+const QString EMPTY = "";
+const QString DOUBLE_SPACE = "  ";
 
 class MorseEncoder : public QObject
 {

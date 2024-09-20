@@ -10,6 +10,6 @@ class FileHandler : public QObject
 public:
     explicit FileHandler(QObject *parent = nullptr);
     Q_INVOKABLE QString readText(QString filePath);
-    Q_INVOKABLE void save(QString filePath, QString text);
+    Q_INVOKABLE void saveText(QString filePath, QString text);
 };
 #endif // FILEHANDLER_H
