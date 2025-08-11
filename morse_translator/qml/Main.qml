@@ -1,6 +1,8 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Dialogs 6.2
+import QtQuick.Layouts
+import QtQuick.Controls.Material 2.15
 
 Window {
     width: 400
@@ -9,8 +11,13 @@ Window {
     minimumWidth: saveButton.width + fileButton.width + 30
     minimumHeight: buttonsRow.height * 3
 
+    Material.theme: Material.Light
+    Material.primary: Material.Blue
+    Material.accent: Material.LightBlue
+    Material.background: "white"
+
     visible: true
-    title: qsTr("Морзе Переводчик")
+    title: qsTr("Кодировщик азбуки морзе")
 
     Column {
         width: parent.width
@@ -20,159 +27,94 @@ Window {
 
         spacing: 10
 
-        Row {
-            id: buttonsRow
+        RowLayout {
+            width: parent.width
 
-            FileDialog {
-                id: fileDialog
+            ToolBar {
+                Layout.preferredWidth: parent.width
+                Material.elevation: 2
+                RowLayout {
+                    id: buttonsRow
+                    anchors.fill: parent
+                    spacing: 8
 
-                title: "Документ"
-
-                nameFilters: ["Текстовые файлы (*.txt)", "Все файлы (*)"]
-
-                onAccepted: {
-                    var filePath = fileDialog.currentFile.toString()
-                    if (Qt.platform.os === "windows")
-                        filePath=filePath.replace("file:///", "")
-                    else if (Qt.platform.os === "linux" || Qt.platform.os === "osx")
-                        filePath = filePath.replace("file://", "")
-                    sourceText.text = fileHandler.readText(filePath)
-                }
-            }
-
-            FileDialog {
-                id: save
-
-                title: "Сохраните файл"
-
-                fileMode: FileDialog.SaveFile
-                nameFilters: ["Текстовые файлы (*.txt)", "Все файлы (*)"]
-
-                onAccepted: {
-                    var filePath = save.currentFile.toString()
-                    if (Qt.platform.os === "windows")
-                        filePath = filePath.replace("file:///", "")
-                    else if (Qt.platform.os === "linux" || Qt.platform.os === "osx")
-                        filePath = filePath.replace("file://", "")
-                    fileHandler.saveText(filePath,translatedText.text)
-                }
-            }
-
-            Row {
-                anchors.left: parent
-
-                leftPadding: 10
-                spacing: 20
-
-                Column {
-                    width: fileButton.width
-                    height: fileButton.height
-
-                    Button {
+                    ToolButton {
                         id: fileButton
-                        text: "Выбрать файл"
-
+                        //Layout.alignment: Qt.AlignLeft
+                        Layout.alignment: Qt.AlignCenter
+                        text: qsTr("Выбрать файл")
                         onClicked: fileDialog.open()
                     }
-                }
-
-                Column {
-                    width: saveButton.width
-                    height: saveButton.height
-
-                    Button {
+                    ToolButton {
                         id: saveButton
-                        text: "Сохранить как"
-
+                        Layout.alignment: Qt.AlignCenter
+                        text: qsTr("Сохранить как")
                         onClicked: save.open()
                     }
+                    // ToolButton {
+                    //     id: closeButton
+                    //     Layout.alignment: Qt.AlignRight
+                    //     text: qsTr("Выйти")
+                    //     //onClicked: window.close()
+                    // }
                 }
             }
         }
-        Row {
+
+        RowLayout {
             width: parent.width
             height: parent.height - (2 * buttonsRow.height)
 
-            spacing: 15
+            spacing: 10
 
-            Column {
-                width: (parent.width / 2) - change.width
-                height: parent.height
+            TextArea {
+                id: sourceText
 
-                TextArea {
-                    id: sourceText
+                Layout.preferredHeight: parent.height
+                Layout.preferredWidth: (parent.width / 2) - change.width - 5
+                Layout.leftMargin: 10
 
-                    width: parent.width
-                    height: parent.height
+                placeholderText: "Введите текст"
+                wrapMode: Text.Wrap
 
-                    anchors{
-                        left: parent.left
-                        leftMargin: 10
-                    }
-
-                    placeholderText: "Введите текст"
-                    wrapMode: Text.Wrap
-
-                    background: Rectangle {
-                        radius: 2
-
-                        border{
-                            color: "grey"
-                            width: 1
-                        }
-                    }
-
-                    onTextChanged:
-                        if (sourceText.text.match(/^[\.\-\s]+$/))
-                            translatedText.text = morseEncoder.decode(sourceText.text)
-                        else
-                            translatedText.text = morseEncoder.encode(sourceText.text)
-                }
-            }
-            Column {
-                width: change.width
-                height: change.height
-
-                topPadding: sourceText.height / 3
-
-                Button {
-                    id: change
-                    text: "<->"
-                    onClicked: sourceText.text = translatedText.text
-                }
+                onTextChanged:
+                    if (sourceText.text.match(/^[\.\-\s]+$/))
+                        translatedText.text = morseEncoder.decode(sourceText.text)
+                    else
+                        translatedText.text = morseEncoder.encode(sourceText.text)
             }
 
-            Column {
-                width: (parent.width / 2) - change.width
-                height: parent.height
+            RoundButton {
+                id: change
+                text: "↔"        // аналог иконки swap_horiz
+                Accessible.name: qsTr("Поменять местами")
+                Material.accent: "#1E88E5"
+                onClicked: sourceText.text = translatedText.text
+            }
 
-                TextArea {
-                    id: translatedText
+            TextArea {
+                id: translatedText
 
-                    width: parent.width
-                    height: parent.height
+                Layout.preferredHeight: parent.height
+                Layout.preferredWidth: (parent.width / 2) - change.width - 5
+                Layout.rightMargin: 10
 
-                    anchors{
-                        right: parent.right
-                        rightMargin: 10
-                    }
+                placeholderText: "Перевод"
+                wrapMode: Text.Wrap
 
-                    placeholderText: "Перевод"
-                    wrapMode: Text.Wrap
-
-                    clip: true
-                    readOnly: true
-
-                    background: Rectangle {
-                        radius: 2
-
-                        border{
-                            color: "grey"
-                            width: 1
-                        }
-                    }
-                }
+                clip: true
+                readOnly: true
             }
         }
+    }
+
+    CustomFileDialog {
+        id: fileDialog
+        isReadMode: true
+    }
+
+    CustomFileDialog {
+        id: save
+        isReadMode: false
     }
 }

@@ -12,10 +12,12 @@ const QString DOUBLE_SPACE = "  ";
 class MorseEncoder : public QObject
 {
     Q_OBJECT
+
 public:
     explicit MorseEncoder(QObject *parent = nullptr);
     Q_INVOKABLE QString encode(QString text);
     Q_INVOKABLE QString decode(QString text);
+
 private:
     QHash<QChar, QString> encoder;
     QMap<QString, QChar> decoder;

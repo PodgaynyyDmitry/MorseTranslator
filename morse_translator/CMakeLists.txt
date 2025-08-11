@@ -21,6 +21,7 @@ qt_add_qml_module(appmorse_translator
         SOURCES src/morseencoder.h src/morseencoder.cpp
         SOURCES src/filehandler.h src/filehandler.cpp
         SOURCES
+        QML_FILES qml/CustomFileDialog.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
