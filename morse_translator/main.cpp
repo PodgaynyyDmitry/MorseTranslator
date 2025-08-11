@@ -1,8 +1,8 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include<QQmlContext>
-#include "morseencoder.h"
-#include "filehandler.h"
+#include "src/morseencoder.h"
+#include "src/filehandler.h"
 
 int main(int argc, char *argv[])
 {
@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("morseEncoder",&morseEncoder);
     engine.rootContext()->setContextProperty("fileHandler",&fileHandler);
-    const QUrl url(QStringLiteral("qrc:/morse_translator/Main.qml"));
+    const QUrl url(QStringLiteral("qrc:/morse_translator/qml/Main.qml"));
     QObject::connect(
         &engine,
         &QQmlApplicationEngine::objectCreationFailed,

@@ -16,10 +16,10 @@ qt_add_qml_module(appmorse_translator
     URI morse_translator
     VERSION 1.0
     QML_FILES
-        Main.qml
+        qml/Main.qml
         SOURCES
-        SOURCES morseencoder.h morseencoder.cpp
-        SOURCES filehandler.h filehandler.cpp
+        SOURCES src/morseencoder.h src/morseencoder.cpp
+        SOURCES src/filehandler.h src/filehandler.cpp
         SOURCES
 )
 
