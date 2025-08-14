@@ -15,6 +15,7 @@ qt_add_executable(appmorse_translator
 qt_add_qml_module(appmorse_translator
     URI morse_translator
     VERSION 1.0
+    #RESOURCES icons/logout.svg
     QML_FILES
         qml/Main.qml
         SOURCES
@@ -23,6 +24,9 @@ qt_add_qml_module(appmorse_translator
         SOURCES
         QML_FILES qml/CustomFileDialog.qml
         QML_FILES qml/CustomTextArea.qml
+        RESOURCES qml/icons/logout.svg
+        RESOURCES qml/icons/headerIcon.svg
+        RESOURCES qml/icons/change.svg
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

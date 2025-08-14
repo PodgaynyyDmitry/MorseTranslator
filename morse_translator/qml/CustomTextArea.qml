@@ -8,6 +8,7 @@ Pane {
     id: pane
     property bool isReadOnly: false
     property string text
+    property string placeholderText
 
 
     Layout.preferredHeight: parent.height
@@ -26,11 +27,11 @@ Pane {
         
         TextArea {
             id: textArea
-            
+
             Layout.preferredHeight: parent.height
             Layout.preferredWidth: parent.width
             
-            placeholderText: "Введите текст"
+            placeholderText: pane.placeholderText
             wrapMode: Text.Wrap
 
             readOnly: isReadOnly
