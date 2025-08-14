@@ -67,15 +67,8 @@ Window {
 
             spacing: 10
 
-            TextArea {
+            CustomTextArea {
                 id: sourceText
-
-                Layout.preferredHeight: parent.height
-                Layout.preferredWidth: (parent.width / 2) - change.width - 5
-                Layout.leftMargin: 10
-
-                placeholderText: "Введите текст"
-                wrapMode: Text.Wrap
 
                 onTextChanged:
                     if (sourceText.text.match(/^[\.\-\s]+$/))
@@ -92,18 +85,9 @@ Window {
                 onClicked: sourceText.text = translatedText.text
             }
 
-            TextArea {
+            CustomTextArea {
                 id: translatedText
-
-                Layout.preferredHeight: parent.height
-                Layout.preferredWidth: (parent.width / 2) - change.width - 5
-                Layout.rightMargin: 10
-
-                placeholderText: "Перевод"
-                wrapMode: Text.Wrap
-
-                clip: true
-                readOnly: true
+                isReadOnly: true
             }
         }
     }
