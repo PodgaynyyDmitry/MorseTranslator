@@ -12,8 +12,8 @@ ApplicationWindow {
     width: 400
     height: 300
 
-    minimumWidth:  width
-    minimumHeight: height
+    minimumWidth:  400
+    minimumHeight: 300
 
     Material.theme: Material.Light
     Material.primary: Material.Blue
@@ -120,7 +120,10 @@ ApplicationWindow {
                         id: fileButton
 
                         text: qsTr("Выбрать файл")
-                        font.weight:700
+                        font {
+                            pixelSize: 12
+                            weight:700
+                        }
 
                         onClicked: chooseFile.open()
                     }
@@ -129,7 +132,10 @@ ApplicationWindow {
                         id: saveButton
 
                         text: qsTr("Сохранить")
-                        font.weight:700
+                        font {
+                            pixelSize: 12
+                            weight:700
+                        }
 
                         onClicked: saveFile.open()
                     }
@@ -166,6 +172,7 @@ ApplicationWindow {
                 Layout.leftMargin: 15
 
                 placeholderText: qsTr("Введите текст")
+                font.pixelSize: 12
 
                 onTextChanged:
                     if (sourceText.text.match(/^[\.\-\s]+$/))
@@ -198,6 +205,7 @@ ApplicationWindow {
                 Layout.rightMargin: 15
 
                 placeholderText: qsTr("Перевод")
+                font.pixelSize: 12
                 isReadOnly: true
             }
         }
@@ -205,6 +213,7 @@ ApplicationWindow {
         Text {
             anchors.horizontalCenter: parent.horizontalCenter
             text: qsTr("Подсказка: вводить можно только латинские символы")
+            font.pixelSize: 12
             color: "#808080"
         }
     }
