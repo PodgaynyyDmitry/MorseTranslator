@@ -29,7 +29,7 @@ FileDialog {
         fileHandler.saveText(filePath,translatedText.text)
     }
 
-    title: isReadMode ? "Документ" : "Сохраните файл"
+    title: isReadMode ? qsTr("Документ") : qsTr("Сохраните файл")
     
     nameFilters: ["Текстовые файлы (*.txt)", "Все файлы (*)"]
 

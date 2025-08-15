@@ -10,32 +10,26 @@ Pane {
     property string text
     property string placeholderText
 
-
     Layout.preferredHeight: parent.height
-    Layout.preferredWidth: (parent.width / 2) - change.width - 5
-    Layout.leftMargin: 10
+    Layout.preferredWidth: (parent.width / 2) - change.width
+
     
     Material.elevation: 3
     padding: 0
     
     onTextChanged: textArea.text = text
 
-    ColumnLayout {
+    TextArea {
+        id: textArea
+
         height: parent.height
         width: parent.width
-        spacing: 8
-        
-        TextArea {
-            id: textArea
 
-            Layout.preferredHeight: parent.height
-            Layout.preferredWidth: parent.width
-            
-            placeholderText: pane.placeholderText
-            wrapMode: Text.Wrap
+        placeholderText: pane.placeholderText
+        wrapMode: Text.Wrap
 
-            readOnly: isReadOnly
-            onTextChanged: pane.text = textArea.text
-        }
+        readOnly: isReadOnly
+
+        onTextChanged: pane.text = textArea.text
     }
 }

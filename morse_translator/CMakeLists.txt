@@ -15,7 +15,6 @@ qt_add_executable(appmorse_translator
 qt_add_qml_module(appmorse_translator
     URI morse_translator
     VERSION 1.0
-    #RESOURCES icons/logout.svg
     QML_FILES
         qml/Main.qml
         SOURCES
@@ -29,9 +28,6 @@ qt_add_qml_module(appmorse_translator
         RESOURCES qml/icons/change.svg
 )
 
-# Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
-# If you are developing for iOS or macOS you should consider setting an
-# explicit, fixed bundle identifier manually though.
 set_target_properties(appmorse_translator PROPERTIES
 #    MACOSX_BUNDLE_GUI_IDENTIFIER com.example.appmorse_translator
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}

@@ -5,21 +5,24 @@ import QtQuick.Layouts
 import QtQuick.Controls.Material 2.15
 
 ApplicationWindow {
-    id: mainWindows
+    id: mainWindow
+
+    property int grip: 6
+
     width: 400
     height: 300
 
-    minimumWidth:  width//saveButton.width + fileButton.width + 30
-    minimumHeight: height//buttonsRow.height * 3
+    minimumWidth:  width
+    minimumHeight: height
 
     Material.theme: Material.Light
     Material.primary: Material.Blue
     Material.accent: Material.LightBlue
     Material.background: "white"
+
     flags: Qt.Window | Qt.FramelessWindowHint
 
     visible: true
-    title: qsTr("Кодировщик азбуки морзе")
 
     color: "#F6F6FB"
 
@@ -29,34 +32,31 @@ ApplicationWindow {
         acceptedDevices: PointerDevice.Mouse
         acceptedButtons: Qt.LeftButton
         grabPermissions: PointerHandler.CanTakeOverFromAnything
-        onActiveChanged: if (active) mainWindows.startSystemMove()
+        onActiveChanged: if (active) mainWindow.startSystemMove()
     }
 
-    property int grip: 6
-
-    // ЛЕВО
     MouseArea {
         anchors.left: parent.left; anchors.top: parent.top; anchors.bottom: parent.bottom
-        width: mainWindows.grip; cursorShape: Qt.SizeHorCursor; hoverEnabled: true
-        onPressed: if (mouse.button === Qt.LeftButton) mainWindows.startSystemResize(Qt.LeftEdge)
+        width: mainWindow.grip; cursorShape: Qt.SizeHorCursor; hoverEnabled: true
+        onPressed: if (mouse.button === Qt.LeftButton) mainWindow.startSystemResize(Qt.LeftEdge)
     }
-    // ПРАВО
+
     MouseArea {
         anchors.right: parent.right; anchors.top: parent.top; anchors.bottom: parent.bottom
-        width: mainWindows.grip; cursorShape: Qt.SizeHorCursor; hoverEnabled: true
-        onPressed: if (mouse.button === Qt.LeftButton) mainWindows.startSystemResize(Qt.RightEdge)
+        width: mainWindow.grip; cursorShape: Qt.SizeHorCursor; hoverEnabled: true
+        onPressed: if (mouse.button === Qt.LeftButton) mainWindow.startSystemResize(Qt.RightEdge)
     }
-    // ВЕРХ
+
     MouseArea {
         anchors.top: parent.top; anchors.left: parent.left; anchors.right: parent.right
-        height: mainWindows.grip; cursorShape: Qt.SizeVerCursor; hoverEnabled: true
-        onPressed: if (mouse.button === Qt.LeftButton) mainWindows.startSystemResize(Qt.TopEdge)
+        height: mainWindow.grip; cursorShape: Qt.SizeVerCursor; hoverEnabled: true
+        onPressed: if (mouse.button === Qt.LeftButton) mainWindow.startSystemResize(Qt.TopEdge)
     }
-    // НИЗ
+
     MouseArea {
         anchors.bottom: parent.bottom; anchors.left: parent.left; anchors.right: parent.right
-        height: mainWindows.grip; cursorShape: Qt.SizeVerCursor; hoverEnabled: true
-        onPressed: if (mouse.button === Qt.LeftButton) mainWindows.startSystemResize(Qt.BottomEdge)
+        height: mainWindow.grip; cursorShape: Qt.SizeVerCursor; hoverEnabled: true
+        onPressed: if (mouse.button === Qt.LeftButton) mainWindow.startSystemResize(Qt.BottomEdge)
     }
 
     Column {
@@ -64,7 +64,7 @@ ApplicationWindow {
         height: parent.height
 
         anchors.centerIn: parent
-        //anchors.topMargin: 6
+
         spacing: 10
 
         RowLayout {
@@ -73,11 +73,13 @@ ApplicationWindow {
             ToolBar {
                 Layout.preferredWidth: parent.width
                 Material.elevation: 2
+
                 background: Rectangle {
                     border.width: 0
+
                     gradient: Gradient {
-                        GradientStop { position: 0.0; color: "#5AA8FF" } // голубой
-                        GradientStop { position: 1.0; color: "#3B82F6" } // сине-голубой
+                        GradientStop { position: 0.0; color: "#5AA8FF" }
+                        GradientStop { position: 1.0; color: "#3B82F6" }
                     }
                 }
 
@@ -87,13 +89,12 @@ ApplicationWindow {
                     spacing: 0
 
                     Item {
-                        Layout.leftMargin: 10
                         height: 20
                         width: 20
+
+                        Layout.leftMargin: 10
+
                         Image {
-                            // anchors.centerIn: parent
-                            // height: 20
-                            // width: 20
                             anchors.fill: parent
                             source: "icons/headerIcon.svg"
                         }
@@ -103,42 +104,47 @@ ApplicationWindow {
                         Layout.alignment: Qt.AlignVCenter
                         Layout.leftMargin: 10
                         Layout.fillWidth: true
+
                         text: qsTr("Кодировщик Морзе")
-                        color: "white"
-                        font.pixelSize: 12
-                        font.weight:700
+
+                        color: "#ffffff"
                         elide: Text.ElideRight
+
+                        font {
+                            pixelSize: 12
+                            weight:700
+                        }
                     }
 
                     ToolButton {
                         id: fileButton
-                        //Layout.alignment: Qt.AlignLeft
-                        //Layout.alignment: Qt.AlignCenter
 
                         text: qsTr("Выбрать файл")
                         font.weight:700
-                        onClicked: fileDialog.open()
+
+                        onClicked: chooseFile.open()
                     }
+
                     ToolButton {
                         id: saveButton
-                        //Layout.alignment: Qt.AlignCenter
+
                         text: qsTr("Сохранить")
                         font.weight:700
-                        onClicked: save.open()
+
+                        onClicked: saveFile.open()
                     }
 
                     ToolButton {
                         id: closeButton
-                        // Layout.alignment: Qt.AlignRight
-                        // Material.background: "#1E88E5"       // голубой фон (или Material.accent)
-                        // Material.theme: Material.Light       // чтобы контраст был как у Google
-                        //text: qsTr("Выйти")
 
                         Image {
                             id: name
-                            anchors.centerIn: parent
+
                             height: 20
                             width: 20
+
+                            anchors.centerIn: parent
+
                             source: "icons/logout.svg"
                         }
 
@@ -157,7 +163,9 @@ ApplicationWindow {
             CustomTextArea {
                 id: sourceText
 
-                placeholderText: "Введите текст"
+                Layout.leftMargin: 15
+
+                placeholderText: qsTr("Введите текст")
 
                 onTextChanged:
                     if (sourceText.text.match(/^[\.\-\s]+$/))
@@ -168,41 +176,46 @@ ApplicationWindow {
 
             RoundButton {
                 id: change
-                //text: "↔"                            // стрелка
-                //highlighted: true                    // кнопка — «залитая»
-                Material.background: "#1E88E5"       // голубой фон (или Material.accent)
-                Material.theme: Material.Light       // чтобы контраст был как у Google
+
+                Material.background: "#1E88E5"
+                Material.theme: Material.Light
+
                 onClicked: sourceText.text = translatedText.text
+
                 Image {
-                    anchors.centerIn: parent
                     height: 10
                     width: 20
+
+                    anchors.centerIn: parent
+
                     source: "icons/change.svg"
                 }
-                // при желании увеличьте стрелку:
-                // font.pixelSize: 20
             }
 
             CustomTextArea {
                 id: translatedText
-                placeholderText: "Перевод"
+
+                Layout.rightMargin: 15
+
+                placeholderText: qsTr("Перевод")
                 isReadOnly: true
             }
         }
+
         Text {
             anchors.horizontalCenter: parent.horizontalCenter
-            text: "Подсказка: вводить можно только латинские символы"
-            color: "grey"
+            text: qsTr("Подсказка: вводить можно только латинские символы")
+            color: "#808080"
         }
     }
 
     CustomFileDialog {
-        id: fileDialog
+        id: chooseFile
         isReadMode: true
     }
 
     CustomFileDialog {
-        id: save
+        id: saveFile
         isReadMode: false
     }
 }
